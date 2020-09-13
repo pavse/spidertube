@@ -2,7 +2,6 @@
 import time
 from pytube import YouTube
 
-
 text_file = open("links.txt", "r")
 lines = text_file.readlines()
 text_file.close()
@@ -15,7 +14,8 @@ def download_stream(stream):
     try:
         stream.download()
         downloaded = True
-    except:
+    except BaseException as _E:
+        print(_E)
         print("Download failed")
     return downloaded
 
@@ -34,13 +34,15 @@ for line in lines:
             #     if download_stream(audio_stream):
             #         break
         else:
-            print("Skipping {0}:{1:02d} video \"{2}\"".format(int(yt.length/60), yt.length % 60, yt.title))
-    except:
+            print("Skipping {0}:{1:02d} video \"{2}\"".format(int(yt.length / 60), yt.length % 60, yt.title))
+    except BaseException as _E:
+        print(_E)
         print("Cannot open the URL")
         time.sleep(20)
     finally:
         print("----------")
         time.sleep(2)
+
 
 # EXAMPLE
 # yt.author  'Красный Угол'
