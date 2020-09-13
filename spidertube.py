@@ -14,8 +14,8 @@ def download_stream(stream):
     try:
         stream.download()
         downloaded = True
-    except BaseException as _E:
-        print(_E)
+    except BaseException as streamException:
+        print(streamException)
         print("Download failed")
     return downloaded
 
@@ -26,7 +26,10 @@ for line in lines:
         yt = YouTube(line)
         if yt.length < 1800:
             for video_stream in yt.streams.filter(progressive=True).order_by('resolution').desc():
-                print("Downloading \"{0}\" {1} @ {2} fps".format(yt.title, video_stream.resolution, video_stream.fps))
+                print(
+                    "Downloading \"{0}\" {0}:{1:02d} {1} @ {2} fps".format(
+                        yt.title, int(yt.length / 60), yt.length % 60, video_stream.resolution, video_stream.fps)
+                )
                 if download_stream(video_stream):
                     break
             # for audio_stream in yt.streams.filter(file_extension='mp4', type='audio').order_by('bitrate').desc():
@@ -35,8 +38,8 @@ for line in lines:
             #         break
         else:
             print("Skipping {0}:{1:02d} video \"{2}\"".format(int(yt.length / 60), yt.length % 60, yt.title))
-    except BaseException as _E:
-        print(_E)
+    except BaseException as ytException:
+        print(ytException)
         print("Cannot open the URL")
         time.sleep(20)
     finally:
