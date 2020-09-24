@@ -1,6 +1,7 @@
 #!/usr/bin/python3 -u
 import time
 from pytube import YouTube
+from pathlib import Path
 
 text_file = open("links.txt", "r")
 lines = text_file.readlines()
@@ -10,14 +11,17 @@ text_file.close()
 def download_stream(stream):
     print("  Stream: ", end="")
     print(stream)
-    downloaded = False
-    try:
-        stream.download()
-        downloaded = True
-    except BaseException as streamException:
-        print(streamException)
-        print("Download failed")
-    return downloaded
+    file_path = Path(stream.default_filename)
+    if file_path.is_file():
+        print("File already exists: \"{}\"".format(stream.default_filename))
+    else:
+        try:
+            stream.download()
+            return True
+        except BaseException as streamException:
+            print(streamException)
+            print("Download failed")
+    return False
 
 
 for line in lines:
