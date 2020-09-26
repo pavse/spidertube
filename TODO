@@ -1,4 +1,5 @@
 Fetch video id from url with regexp
+    pytube regexp: (?:v=|\/)([0-9A-Za-z_-]{11}).*
 Skip downloading video if it was successfully downloaded (according to database)
 Do not add URL (video id) into database if it already exists
 Implement command line interface
