@@ -1,0 +1,6 @@
+Fetch video id from url with regexp
+Skip downloading video if it was successfully downloaded (according to database)
+Do not add URL (video id) into database if it already exists
+Implement command line interface
+    option to read database only
+    option to try videos which were failed
